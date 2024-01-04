@@ -1,4 +1,4 @@
-
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const date = require(__dirname + "/date.js");
@@ -14,7 +14,11 @@ app.use(express.static("public"));
 app.set("view engine" , "ejs");
 // const username = encodeURIComponent("SagarGupta215");
 // const password = encodeURIComponent("TodoList100#");
-mongoose.connect("mongodb+srv://SagarGupta215:TodoList100@cluster0.iim9xax.mongodb.net/todoListDB",{useNewUrlParser:true});
+mongoose.connect(process.env.DATABASE_URI,{useNewUrlParser:true}).then(function (res) {
+    console.log('Connected to Database');
+}).catch(function (err) {
+    console.log(err);
+});
     
     const itemschema = new mongoose.Schema({
         name:String
@@ -30,7 +34,7 @@ mongoose.connect("mongodb+srv://SagarGupta215:TodoList100@cluster0.iim9xax.mongo
         name:"Eat Food"
     });
     const defaultitem = [item1,item2,item3];
-    
+
     const listSchema = mongoose.Schema({
         name: String,
         items: [itemschema]
